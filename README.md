@@ -9,7 +9,6 @@ index.html               the page
 assets/css/style.css     all styles (colours are at the top, in :root)
 assets/js/config.js      ← the only file you normally need to edit
 assets/js/main.js        animations, demo cards, order builder
-assets/fonts/            "SFS Groovy", the hand-lettered heading font
 assets/img/demos/        screenshots of the live demo sites
 assets/img/team/         founder photos
 ```
@@ -65,5 +64,9 @@ Each demo has a `cover` image (the front page) and optionally:
 
 Save screenshots as `.webp` to keep the page fast.
 
-## About the heading font
-`SFS Groovy` was traced from the hand-lettering in the reference poster we were given. Letters that weren't in the poster (b, d, f, g, h, k, l, u, v, w, x, y, z) were rebuilt from the same hand-drawn strokes. Digits and most punctuation aren't included, so they fall back to the body font.
+## Look and fonts
+The site is styled like a y2k "we are hiring" poster: a browser bar on top, pink halftone paper, grey words in baby blue boxes and big pink rounded words with a grey 3D shadow. All of it lives in `assets/css/style.css` (colours are the variables at the top).
+
+Fonts load from Google Fonts: **Arimo** (boxed words), **M PLUS Rounded 1c** (pink words) and **Poppins** (body and italic notes).
+
+`preview.html` only forwards to the homepage, so old preview links keep working.
