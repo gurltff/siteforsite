@@ -16,12 +16,12 @@
     },
     {
       title: 'Anoushka Dey · portfolio', url: 'https://gurltff.github.io/portfolio-3-/',
-      desc: 'A paper-collage portfolio that opens into a pixel-art desktop full of pop-up windows.',
+      desc: 'A paper collage portfolio that opens into a pixel art desktop full of little pop up windows.',
       tags: ['portfolio', 'playful'], cover: 'anoushka-cover', alt: 'anoushka-inside',
     },
     {
       title: 'Ansshita Kumar · portfolio', url: 'https://gurltff.github.io/myportfolio/',
-      desc: 'A dreamy “pop-up edition” portfolio with hand-drawn type, skill stickers and a stamp rally.',
+      desc: 'A dreamy portfolio with hand drawn type, skill stickers and a stamp rally.',
       tags: ['portfolio', 'scrapbook'], cover: 'ansshita-cover', long: 'ansshita-long',
     },
     {
@@ -36,19 +36,19 @@
     },
     {
       title: 'Weekly & monthly planner', url: 'https://raghav3907-svg.github.io/finalplannerver.01/',
-      desc: 'A cute, no-install planner for your weekly to-dos, with a monthly calendar view.',
+      desc: 'A cute planner for your weekly to do list, with a monthly calendar view. Nothing to install.',
       tags: ['tool', 'planner'], cover: 'planner-cover', alt: 'planner-inside',
     },
     {
       title: 'Smart Attendance Tracker', url: 'https://gurltff.github.io/attendance-tracker/',
-      desc: 'Attendance for students, teachers and CRs, with dashboards, announcements and geotagged check-ins. 1st place at our college\'s internal SIH hackathon.',
+      desc: 'Attendance for students, teachers and CRs, with dashboards, announcements and geotagged check ins. 1st place at our college\'s internal SIH hackathon.',
       tags: ['web app', 'hackathon winner'], cover: 'attendance-cover',
     },
   ];
 
   /* ---------------- order builder data ---------------- */
   const TYPES = [
-    'Personal portfolio', 'Link-in-bio page', 'Digital resume / CV', 'Event or fest page',
+    'Personal portfolio', 'Link in bio page', 'Digital resume / CV', 'Event or fest page',
     'Society or club page', 'Small business page', 'Birthday / anniversary / proposal page', 'Wedding or party invite',
   ];
   const BASE = 150;
@@ -59,7 +59,7 @@
     { id: 'map', label: 'Google Map', price: 49 },
     { id: 'gallery', label: 'Photo gallery', price: 49 },
     { id: 'music', label: 'Music', price: 49 },
-    { id: 'urgent', label: 'Urgent same-day delivery', price: 100 },
+    { id: 'urgent', label: 'Urgent same day delivery', price: 100 },
   ];
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -76,36 +76,12 @@
     a.href = hasForm ? CFG.googleFormUrl : waLink('Hi siteforsite! ♡ I’d like to book a website. Could you send me the order form?');
   });
 
-  /* ---------------- split text into letters ---------------- */
-  $$('[data-split]').forEach(el => {
-    const text = el.textContent.trim();
-    if (!el.hasAttribute('aria-hidden') && !el.getAttribute('aria-label')) el.setAttribute('aria-label', text);
-    let i = 0;
-    el.innerHTML = text.split(' ').map(word =>
-      `<span class="w" aria-hidden="true" style="display:inline-block;white-space:nowrap">${
-        [...word].map(ch => `<span class="ch" data-ch="${esc(ch)}" style="--i:${i++}">${esc(ch)}</span>`).join('')
-      }</span>`).join(' ');
-  });
-  const wiggle = ch => {
-    if (reduced || ch.classList.contains('is-wiggle')) return;
-    ch.classList.add('is-wiggle');
-    ch.addEventListener('animationend', () => ch.classList.remove('is-wiggle'), { once: true });
-  };
-  document.addEventListener('pointerover', e => {
-    const ch = e.target.closest?.('.ch');
-    if (ch && ch.closest('.is-in, .is-done, .footer')) wiggle(ch);
-  });
-  $('.hero__title')?.addEventListener('click', () => {
-    $$('.hero .ch').forEach((ch, k) => setTimeout(() => wiggle(ch), k * 60));
-  });
-
   /* ---------------- hero intro ---------------- */
-  const hero = $('.hero');
+  const hero = $('.slide--hero');
   const start = () => {
     if (root.classList.contains('is-ready')) return;
     root.classList.add('is-ready');
     hero?.classList.add('is-in');
-    setTimeout(() => hero?.classList.add('is-done'), 2600);
   };
   if (document.fonts?.ready) {
     Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1200))]).then(() => requestAnimationFrame(start));
@@ -119,7 +95,6 @@
       if (!en.isIntersecting) return;
       const el = en.target;
       el.classList.add('is-in');
-      if (el.matches('.h2')) setTimeout(() => el.classList.add('is-done'), 1400);
       const counter = el.querySelector('[data-count]');
       if (counter) countUp(counter);
       revealIO.unobserve(el);
@@ -139,15 +114,9 @@
     requestAnimationFrame(tick);
   }
 
-  /* ---------------- nav (sits at the top of the page, scrolls away with it) ---------------- */
+  /* ---------------- top bar menu (sits at the top of the page) ---------------- */
   const menuBtn = $('[data-menu]');
   const sheet = $('[data-sheet]');
-  let ticking = false;
-  const onScroll = () => {
-    if (hero && !reduced) hero.style.setProperty('--py', Math.min(scrollY, 900));
-    ticking = false;
-  };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 
   const setMenu = open => {
     menuBtn.setAttribute('aria-expanded', String(open));
@@ -159,38 +128,6 @@
   document.addEventListener('click', e => {
     if (sheet && !sheet.hidden && !e.target.closest('[data-sheet], [data-menu]')) setMenu(false);
   });
-
-  /* ---------------- sparkle trail over the hero ---------------- */
-  if (hero && finePointer && !reduced) {
-    let last = 0, live = 0;
-    hero.addEventListener('pointermove', e => {
-      const now = performance.now();
-      if (now - last < 45 || live > 18) return;
-      last = now; live++;
-      const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      s.setAttribute('class', 'spark');
-      s.setAttribute('aria-hidden', 'true');
-      s.innerHTML = '<use href="#sparkle"/>';
-      const size = 10 + Math.random() * 12;
-      s.style.cssText = `left:${e.clientX + (Math.random() * 16 - 8)}px;top:${e.clientY + (Math.random() * 16 - 8)}px;width:${size}px;height:${size}px`;
-      document.body.appendChild(s);
-      s.addEventListener('animationend', () => { s.remove(); live--; }, { once: true });
-    });
-  }
-
-  /* ---------------- tilt on the site-type cards ---------------- */
-  if (finePointer && !reduced) {
-    $$('[data-tilt]').forEach(card => {
-      card.addEventListener('pointermove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg');
-        card.style.setProperty('--rx', (y * -10).toFixed(2) + 'deg');
-      });
-      card.addEventListener('pointerleave', () => { card.style.removeProperty('--rx'); card.style.removeProperty('--ry'); });
-    });
-  }
 
   /* ---------------- demo cards ---------------- */
   const grid = $('[data-demos]');
@@ -204,22 +141,22 @@
       const hint = d.long ? 'hover to scroll' : d.alt ? 'hover to peek inside' : 'tap to try it';
       return `
       <article class="demo${d.feature ? ' demo--feature' : ''}" data-reveal data-demo="${k}">
-        <div class="demo__win">
+        <div class="demo__frame">
           <div class="demo__bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="demo__url">${esc(host)}</span></div>
           <button class="demo__screen" type="button" data-try="${k}" aria-label="Try ${esc(d.title)} live, right here">
             <img class="cover" src="${IMG(d.cover)}" alt="Front page of ${esc(d.title)}" width="1120" height="700" loading="lazy">
             ${extra}
-            <span class="demo__hint"><svg aria-hidden="true"><use href="#sparkle"/></svg>${hint}</span>
+            <span class="demo__hint">${hint}</span>
           </button>
         </div>
-        <div class="demo__meta">
-          ${d.badge ? `<span class="demo__badge">${esc(d.badge)} ♡</span>` : ''}
+        <div class="demo__info">
+          ${d.badge ? `<span class="tag demo__badge">${esc(d.badge)}</span>` : ''}
           <h3>${esc(d.title)}</h3>
           <p>${esc(d.desc)}</p>
-          <p class="demo__tags">${d.tags.map(t => `<span>${esc(t)}</span>`).join('')}</p>
+          <p class="demo__tags">${d.tags.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</p>
           <div class="demo__actions">
             <button class="btn btn--blue" type="button" data-try="${k}">try it here</button>
-            <a class="btn btn--ghost" href="${d.url}" target="_blank" rel="noopener">visit live <svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></a>
+            <a class="btn" href="${d.url}" target="_blank" rel="noopener">visit live <svg class="ico" aria-hidden="true"><use href="#i-ext"/></svg></a>
           </div>
         </div>
       </article>`;

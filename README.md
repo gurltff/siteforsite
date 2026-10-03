@@ -9,7 +9,6 @@ index.html               the page
 assets/css/style.css     all styles (colours are at the top, in :root)
 assets/js/config.js      ← the only file you normally need to edit
 assets/js/main.js        animations, demo cards, order builder
-assets/fonts/            "SFS Groovy", the hand-lettered heading font
 assets/img/demos/        screenshots of the live demo sites
 assets/img/team/         founder photos
 ```
@@ -65,5 +64,5 @@ Each demo has a `cover` image (the front page) and optionally:
 
 Save screenshots as `.webp` to keep the page fast.
 
-## About the heading font
-`SFS Groovy` was traced from the hand-lettering in the reference poster we were given. Letters that weren't in the poster (b, d, f, g, h, k, l, u, v, w, x, y, z) were rebuilt from the same hand-drawn strokes. Digits and most punctuation aren't included, so they fall back to the body font.
+## Fonts
+Titles use **Yellowtail** (outlined with a drop shadow to look like the retro "About Me" deck) and body text uses **EB Garamond**. Both load from Google Fonts.
