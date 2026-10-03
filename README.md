@@ -36,13 +36,17 @@ Until you add a form link, every "order form" button opens WhatsApp instead, so 
    googleFormUrl: "https://forms.gle/your-link-here",
    ```
 
-## 2. Put it online (GitHub Pages)
+## 2. Where it's live
 
-1. Push this repo to GitHub (already done if you're reading this there).
-2. Repo **Settings** → **Pages** → *Source: Deploy from a branch* → pick the branch and `/ (root)` → **Save**.
-3. After a minute the site is live at `https://<your-username>.github.io/siteforsite/`.
+**https://gurltff.github.io/siteforsite/**
 
-Netlify or Vercel work too: drag the folder in or import the repo. There's no build command; the publish directory is the repo root.
+GitHub Pages serves the `gh-pages` branch. To publish changes, push the updated files to that branch, e.g.:
+
+```sh
+git push origin HEAD:gh-pages
+```
+
+GitHub rebuilds the site in about a minute. Netlify or Vercel work too: import the repo; there's no build command and the publish directory is the repo root (`netlify.toml` already says so).
 
 ## 3. Everyday edits
 
