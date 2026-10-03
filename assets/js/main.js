@@ -139,21 +139,12 @@
     requestAnimationFrame(tick);
   }
 
-  /* ---------------- nav ---------------- */
-  const nav = $('[data-nav]');
+  /* ---------------- nav (sits at the top of the page, scrolls away with it) ---------------- */
   const menuBtn = $('[data-menu]');
   const sheet = $('[data-sheet]');
-  const floatBtn = $('[data-float]');
-  let lastY = scrollY;
   let ticking = false;
   const onScroll = () => {
-    const y = scrollY;
-    const menuOpen = menuBtn?.getAttribute('aria-expanded') === 'true';
-    if (!menuOpen) nav.classList.toggle('is-hidden', y > 320 && y > lastY + 4);
-    if (y < lastY - 4 || y < 320) nav.classList.remove('is-hidden');
-    lastY = y;
-    if (hero && !reduced) hero.style.setProperty('--py', Math.min(y, 900));
-    if (hero && y < hero.offsetHeight * 0.5) links.forEach(l => l.classList.remove('is-active'));
+    if (hero && !reduced) hero.style.setProperty('--py', Math.min(scrollY, 900));
     ticking = false;
   };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
@@ -168,21 +159,6 @@
   document.addEventListener('click', e => {
     if (sheet && !sheet.hidden && !e.target.closest('[data-sheet], [data-menu]')) setMenu(false);
   });
-
-  // active section highlight + floating button visibility
-  const links = $$('.nav__links a');
-  const sections = $$('main section[id]');
-  let heroVisible = true;
-  let orderVisible = false;
-  const updateFloat = () => floatBtn?.classList.toggle('is-on', !heroVisible && !orderVisible);
-  const secIO = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.target.id === 'order') { orderVisible = en.isIntersecting; updateFloat(); }
-      if (en.isIntersecting) links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === '#' + en.target.id));
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
-  sections.forEach(s => secIO.observe(s));
-  if (hero) new IntersectionObserver(([en]) => { heroVisible = en.isIntersecting; updateFloat(); }, { threshold: 0.05 }).observe(hero);
 
   /* ---------------- sparkle trail over the hero ---------------- */
   if (hero && finePointer && !reduced) {

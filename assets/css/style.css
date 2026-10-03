@@ -159,7 +159,7 @@ button { font: inherit; color: inherit; }
    nav
    --------------------------------------------------------- */
 .nav {
-  position: fixed;
+  position: absolute;
   top: 12px;
   left: 50%;
   z-index: 50;
@@ -178,10 +178,8 @@ button { font: inherit; color: inherit; }
   transform: translate(-50%, 0);
   transition: transform .45s var(--ease-out), opacity .3s;
 }
-.nav.is-hidden { transform: translate(-50%, -140%); }
 .js .nav { opacity: 0; transform: translate(-50%, -140%); }
 .js.is-ready .nav { opacity: 1; transform: translate(-50%, 0); }
-.js.is-ready .nav.is-hidden { transform: translate(-50%, -140%); }
 
 .nav__logo {
   font-family: var(--f-groovy);
@@ -204,12 +202,11 @@ button { font: inherit; color: inherit; }
   transition: background-color .2s, color .2s;
 }
 .nav__links a:hover { background: var(--sky-3); }
-.nav__links a.is-active { background: var(--sky); }
 .nav__cta { flex: none; }
 .nav__menu { display: none; }
 
 .sheet {
-  position: fixed;
+  position: absolute;
   z-index: 49;
   top: 84px;
   left: 12px;
@@ -348,12 +345,16 @@ button { font: inherit; color: inherit; }
 .letter {
   position: relative;
   z-index: 2;
-  width: min(820px, 100%);
-  padding: clamp(36px, 6vw, 64px) clamp(22px, 6vw, 72px) clamp(78px, 9vw, 104px);
+  width: min(780px, 100%);
+  padding: clamp(36px, 6vw, 60px) clamp(22px, 6vw, 72px) clamp(78px, 9vw, 104px);
   border-radius: 6px 6px var(--r-lg) var(--r-lg);
-  background: var(--cream);
+  background-color: var(--cream);
+  /* dot-grid journal paper */
+  background-image: radial-gradient(circle, rgba(127, 159, 201, .4) 1.3px, transparent 1.9px);
+  background-size: 24px 24px;
+  background-position: 10px 14px;
   box-shadow: var(--shadow-2);
-  text-align: center;
+  text-align: left;
 }
 .letter::before { /* torn top edge */
   content: "";
@@ -364,37 +365,41 @@ button { font: inherit; color: inherit; }
   clip-path: polygon(0 100%, 0 40%, 3% 70%, 6% 20%, 9% 60%, 12% 30%, 15% 80%, 18% 35%, 21% 55%, 24% 15%, 27% 65%, 30% 40%, 33% 75%, 36% 25%, 39% 60%, 42% 30%, 45% 70%, 48% 20%, 51% 55%, 54% 35%, 57% 80%, 60% 30%, 63% 60%, 66% 15%, 69% 55%, 72% 40%, 75% 75%, 78% 25%, 81% 65%, 84% 35%, 87% 70%, 90% 20%, 93% 55%, 96% 35%, 100% 60%, 100% 100%);
 }
 .letter__dear {
-  margin: 0 0 .3em;
+  margin: 0 0 .5em;
   font-family: var(--f-script);
-  font-size: clamp(20px, 2.4vw, 26px);
-  text-align: left;
+  font-size: clamp(21px, 2.5vw, 28px);
   color: var(--ink-soft);
+  transform: rotate(-2deg);
+  transform-origin: left center;
 }
-.ruled {
-  --lh: 2.05em;
-  line-height: var(--lh);
-  background-image: linear-gradient(to bottom, transparent calc(var(--lh) - 1.5px), var(--rule) calc(var(--lh) - 1.5px), var(--rule) var(--lh), transparent var(--lh));
-  background-size: 100% var(--lh);
+.letter__body p {
+  margin: 0 0 .75em;
+  font-size: clamp(21px, 2.35vw, 27px);
+  line-height: 1.5;
+  letter-spacing: .01em;
 }
-.letter__body {
-  margin: 0;
-  font-size: clamp(19px, 2.15vw, 24px);
-  letter-spacing: .02em;
-  word-spacing: .08em;
-}
-.letter__body b { color: var(--blue-deep); }
-.letter__sign {
-  margin: 1.1em 0 1.2em;
-  font-size: clamp(22px, 2.5vw, 28px);
-  letter-spacing: .04em;
+.letter__body mark {
+  padding: 0 .12em;
+  color: var(--blue-deep);
   font-weight: 700;
+  background: linear-gradient(transparent 52%, rgba(246, 215, 124, .8) 52%, rgba(246, 215, 124, .8) 92%, transparent 92%);
 }
-.letter__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.letter__sign {
+  margin: .9em 0 1.3em;
+  font-family: var(--f-script);
+  font-size: clamp(19px, 2.2vw, 24px);
+  line-height: 1.7;
+  color: var(--blue-deep);
+  transform: rotate(-3deg);
+  transform-origin: left center;
+}
+.letter__sign .ico-heart { color: var(--blue); }
+.letter__cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: flex-start; }
 
 .star { position: absolute; width: 46px; height: 46px; filter: drop-shadow(0 2px 1px rgba(36, 56, 91, .18)); }
-.star--1 { top: 7%; left: 52%; transform: rotate(-12deg); }
-.star--2 { bottom: 26%; right: 6%; width: 54px; height: 54px; transform: rotate(14deg); }
-.star--3 { bottom: 9%; left: 9%; width: 40px; height: 40px; transform: rotate(-6deg); }
+.star--1 { top: 6%; left: 42%; transform: rotate(-12deg); }
+.star--2 { bottom: 9%; right: 6%; width: 54px; height: 54px; transform: rotate(14deg); }
+.star--3 { bottom: 26%; right: 2.5%; width: 34px; height: 34px; transform: rotate(-6deg); }
 .star { animation: twinkle 3.6s ease-in-out infinite; }
 .star--2 { animation-delay: -1.2s; }
 .star--3 { animation-delay: -2.3s; }
@@ -1068,27 +1073,6 @@ button { font: inherit; color: inherit; }
 .footer__top { display: inline-block; padding: 6px 16px; border-radius: 999px; border: 2px solid var(--ink); background: var(--cream); font-weight: 700; text-decoration: none; box-shadow: 0 3px 0 var(--ink); transition: transform .3s var(--spring); }
 .footer__top:hover { transform: translateY(-3px) rotate(-2deg); }
 
-/* floating book button */
-.float-book {
-  position: fixed;
-  right: 18px; bottom: 18px;
-  z-index: 40;
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 12px 20px 13px;
-  border-radius: 999px;
-  border: 2px solid var(--ink);
-  background: var(--blue);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.08rem;
-  text-decoration: none;
-  box-shadow: 0 5px 0 var(--ink), 0 14px 30px -12px rgba(36, 56, 91, .6);
-  transform: translateY(140%);
-  transition: transform .5s var(--spring), background-color .2s;
-}
-.float-book.is-on { transform: translateY(0); }
-.float-book:hover { background: var(--blue-deep); transform: translateY(-3px) rotate(-2deg); }
-
 .toast {
   position: fixed;
   left: 50%; bottom: 24px;
@@ -1137,13 +1121,12 @@ button { font: inherit; color: inherit; }
   .hero__welcome { transform: rotate(-4deg) translateX(-8%); }
   .pin { top: 6px; right: -16px; width: 112px; }
   .star--1 { display: none; }
-  .star--2 { right: 4%; width: 40px; height: 40px; bottom: 30%; }
+  .star--2 { top: 5%; left: 55%; right: auto; bottom: auto; width: 34px; height: 34px; }
   .star--3 { display: none; }
   .letter__cta .btn { flex: 1 1 200px; }
 }
 @media (max-width: 520px) {
   .types { grid-template-columns: minmax(0, 1fr); }
-  .float-book { right: 12px; bottom: 12px; padding: 10px 16px 11px; font-size: 1rem; }
   .receipt { font-size: 13.5px; }
 }
 
