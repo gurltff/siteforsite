@@ -41,7 +41,7 @@
     },
     {
       title: 'Smart Attendance Tracker', url: 'https://gurltff.github.io/attendance-tracker/',
-      desc: 'Attendance for students, teachers and CRs, with dashboards, announcements and geotagged check-ins. 1st place at our college’s internal SIH hackathon.',
+      desc: 'Attendance for students, teachers and CRs, with dashboards, announcements and geotagged check-ins. 1st place at our college's internal SIH hackathon.',
       tags: ['web app', 'hackathon winner'], cover: 'attendance-cover',
     },
   ];
