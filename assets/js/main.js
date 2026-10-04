@@ -82,7 +82,7 @@
   const rupees = n => '₹' + n.toLocaleString('en-IN');
   const waNumber = (CFG.whatsappNumber || '919355143330').replace(/\D/g, '');
   const waLink = text => `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
-  const hasForm = !!(CFG.googleFormUrl && /^https?:\/\//.test(CFG.googleFormUrl));
+  const hasForm = !!(CFG.googleFormUrl && /^https:\/\//.test(CFG.googleFormUrl));
 
   /* ---------------- links from config ---------------- */
   const hello = 'Hi siteforsite! ♡ I’d like to book a website.';
@@ -208,7 +208,8 @@
   });
 
   const pageFromHash = () => {
-    const h = decodeURIComponent(location.hash.slice(1));
+    let h = location.hash.slice(1);
+    try { h = decodeURIComponent(h); } catch {} // a broken link like #% must not blank the site
     return PAGES.find(p => p.id === h || p.path === h) || PAGES[0];
   };
   const show = (page, { focus = true } = {}) => {
@@ -431,6 +432,7 @@
            <button type="button" data-step="-1" aria-label="Fewer: ${esc(x.label)}">−</button><output aria-live="polite">0</output><button type="button" data-step="1" aria-label="More: ${esc(x.label)}">+</button></div>`
       : `<label class="pill"><input type="checkbox" value="${x.id}"><span>${esc(x.label)} <small>+${rupees(x.price)}</small></span></label>`).join('');
 
+    builder.addEventListener('submit', e => e.preventDefault());
     let prevTotal = BASE;
     const render = () => {
       const lines = [[TYPES[state.type], BASE]];

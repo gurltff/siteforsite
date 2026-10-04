@@ -3,6 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- security: only our own files, Google Fonts and the demo sites may load. If you add a demo on a new
+       host, add it to frame-src. If you change the tiny inline script below, update its sha256 hash. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; frame-src https://gurltff.github.io https://raghav3907-svg.github.io; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>siteforsite · cute custom websites from ₹150</title>
   <meta name="description" content="siteforsite is a tiny studio run by three college friends. We make cute, working one page websites (portfolios, link in bio pages, digital resumes, fest pages, birthday surprises and invites) for ₹150, live in 24 to 48 hours.">
   <meta name="theme-color" content="#f2dde4">
@@ -280,7 +284,7 @@
     <li><span class="flow__n">4</span><b>pay half to book</b><span>We send you a UPI request for half your total. Just tap pay, nothing to type.</span></li>
     <li><span class="flow__n">5</span><b>preview, then go live</b><span>We send a preview in 24 to 48 hours. Love it? Pay the rest and get your live link.</span></li>
   </ol>
-  <form class="builder note note--blue" data-builder data-reveal style="--d:.1s" aria-labelledby="builder-title" onsubmit="return false">
+  <form class="builder note note--blue" data-builder data-reveal style="--d:.1s" aria-labelledby="builder-title">
     <div class="builder__head">
       <h3 class="boxword boxword--sm" id="builder-title">build your order</h3>
       <p>Pick your site and extras, fill the short form, then send us your bill on WhatsApp.</p>
@@ -337,7 +341,7 @@
     </div>
     <div class="peek__body">
       <div class="peek__loading" aria-hidden="true"><svg><use href="#sparkle"/></svg><span>opening the live site…</span></div>
-      <iframe data-peek-frame title="Live preview" loading="lazy" allow="autoplay; fullscreen"></iframe>
+      <iframe data-peek-frame title="Live preview" loading="lazy" allow="autoplay; fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-downloads"></iframe>
     </div>
   </div>
 </dialog>

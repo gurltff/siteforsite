@@ -58,7 +58,7 @@ Both rebuild in about a minute. On Render the build command is a no-op `echo` an
 |---|---|
 | change the WhatsApp number or form link | `assets/js/config.js` |
 | change prices | the price list in `index.html` (search for `little extras`) **and** `BASE` / `EXTRAS` in `assets/js/main.js` (the order builder) |
-| add or remove a demo project | the `DEMOS` list at the top of `assets/js/main.js`, plus a 1120×700 screenshot in `assets/img/demos/` |
+| add or remove a demo project | the `DEMOS` list at the top of `assets/js/main.js`, plus a 1120×700 screenshot in `assets/img/demos/`. If the demo is on a new website address, also add it to `frame-src` in the security line at the top of `index.html`, or "try it here" stays blank |
 | change team info or photos | the `team` section in `index.html` and `assets/img/team/` |
 | change colours | the variables at the top of `assets/css/style.css` |
 
@@ -68,6 +68,14 @@ Each demo has a `cover` image (the front page) and optionally:
 - `long`: a tall full-page screenshot (960px wide) that scrolls on hover.
 
 Save screenshots as `.webp` to keep the page fast.
+
+## Security
+The site has no server, database, logins or customer data. Orders go only to the Google Form and its Sheet in your own Google account. To keep it that way:
+- `index.html` has a Content Security Policy (the `Content-Security-Policy` meta tag at the top), so the page loads only our own files, Google Fonts and the demo sites. Injected scripts can't run.
+- The "try it here" preview window is sandboxed, so a demo site can't redirect or take over the page.
+- No customer data is ever put in this repo. Keep the response Sheet private, and keep "View results summary" off in the form's settings (Settings → Responses), so customers never see each other's answers.
+- Charge from the items in a bill, not its "Total" line, because people can edit a WhatsApp message before sending it.
+- Turn on two-step verification for the GitHub, Google and Render accounts. Taking over one of them is the only real way to change the site.
 
 ## Pages
 The site is click-through: home (the poster and a menu), about us, what we make, sites we made, meet the team, the price list and how to order. Each page is a `<section class="page" data-page="…">` in `index.html`; links like `#about` or `#order` open them, and the arrows in the top bar step through them in order. The list of pages is `PAGES` in `assets/js/main.js`.

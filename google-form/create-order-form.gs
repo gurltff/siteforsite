@@ -58,6 +58,7 @@ function createOrderForm() {
   );
   form.setAllowResponseEdits(false);
   form.setShowLinkToRespondAgain(false);
+  form.setPublishingSummary(false); // customers never see each other's answers
 
   form.addTextItem().setTitle('Your name').setRequired(true);
   form.addTextItem()

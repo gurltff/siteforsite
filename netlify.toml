@@ -1,3 +1,12 @@
 [build]
   publish = "."
   command = ""
+
+# security headers (GitHub Pages can't send these; Render takes them in Settings → Headers)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
