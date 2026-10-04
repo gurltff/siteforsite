@@ -28,7 +28,7 @@ google-form/             script that builds the Google order form
 5. Google doesn't let scripts add upload questions, so in the form editor add two **File upload** questions:
    - end of **Your website**: "Upload pictures of the UI you love" (images, up to 5 files)
    - end of **Payment**: "Upload your payment screenshot" (images, 1 file, required)
-6. Payment QR: save it as `assets/img/payment-qr.png` before running the script and it's added automatically, or add it later with the image button in the **Payment** section.
+6. Payment QR: it lives at `assets/img/payment-qr.png` and the script adds it to the Payment section automatically.
 
 **Good to know:**
 - Google Forms can't add up a total by itself, so the form lists every price and asks for the total. When someone uses the order builder on the website and taps **fill the order form**, the form opens with their site type, extras and total already filled in.
