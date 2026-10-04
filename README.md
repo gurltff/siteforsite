@@ -18,16 +18,16 @@ google-form/             script that builds the Google order form
 
 Pay half to book, the rest after the preview:
 1. The customer picks a site and extras in the order builder (on the **how to order** page) and sees the total, split into "pay now to book" and "after your preview".
-2. They fill the **Google order form** (opens pre-filled with their site, extras and total) or just send the order on WhatsApp.
+2. They fill the **short Google Form** (opens pre-filled with their site and extras) or just send the order on WhatsApp.
 3. You send them a **UPI request for half** from your PhonePe (Request money to their number), so nobody types an amount. Check the money arrived in your own PhonePe app; don't trust screenshots.
 4. You build it and send a preview.
 5. They pay the other half, you send the live link.
 
 No payment QR is shown anywhere publicly.
 
-### The Google order form
+### The short Google Form
 
-The linked form is the first one made with the script (the QR was removed from it by hand). `google-form/create-order-form.gs` now builds a shorter version without a payment section, if you ever want to start fresh. It builds it in your Google account and links it to a Google Sheet. It asks for: name, WhatsApp number, type of website, extras (optional), how many, what they want on the site, colours or vibe, and inspo links. The thank you message has a WhatsApp link. Until the form link is in `config.js`, the form buttons open WhatsApp instead.
+`google-form/create-order-form.gs` builds it in your Google account and links it to a Google Sheet. It asks for: name, WhatsApp number, type of website, extras (optional), how many, what they want on the site, colours or vibe, and inspo links. The thank you message has a WhatsApp link. Until the form link is in `config.js`, the form buttons open WhatsApp instead.
 
 **Make it (about 2 minutes):**
 1. Open your Apps Script project (or [script.google.com](https://script.google.com) → **New project**), replace all the code with `create-order-form.gs`, press **Ctrl + S**.
