@@ -62,6 +62,22 @@
     { id: 'urgent', label: 'Urgent same-day delivery', price: 100 },
   ];
 
+  /* labels used in the Google Form; keep in sync with google-form/create-order-form.gs */
+  const FORM_LABELS = {
+    types: [
+      'Personal portfolio (₹150)', 'Link in bio page (₹150)', 'Digital resume or CV (₹150)', 'Event or fest page (₹150)',
+      'Society or club page (₹150)', 'Small business or home seller page (₹150)',
+      'Birthday, anniversary or proposal page (₹150)', 'Wedding or party invite (₹150)',
+    ],
+    extras: {
+      change: 'Extra change after the first round (₹50 each)', page: 'Extra page (₹99 each)',
+      form: 'Contact or registration form (₹99)', map: 'Google Map (₹49)', gallery: 'Photo gallery (₹49)',
+      music: 'Music (₹49)', urgent: 'Urgent delivery, the same day (₹100)',
+    },
+    yes: 'Yes, I want some extras',
+    no: 'No extras, just the ₹150 site',
+  };
+
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const rupees = n => '₹' + n.toLocaleString('en-IN');
   const waNumber = (CFG.whatsappNumber || '919355143330').replace(/\D/g, '');
@@ -299,6 +315,7 @@
     const linesEl = $('[data-lines]', builder);
     const totalEl = $('[data-total]', builder);
     const waBtn = $('[data-wa-order]', builder);
+    const formBtn = $('[data-form-link]', builder);
     const state = { type: 0, extras: Object.fromEntries(EXTRAS.map(x => [x.id, 0])) };
 
     typesEl.innerHTML = TYPES.map((t, k) => `
@@ -327,6 +344,25 @@
         hasForm ? 'I’ll fill the order form and send my payment screenshot here.' : 'I’ll share my details and my payment screenshot here.',
       ].join('\n');
       waBtn.href = waLink(msg);
+      if (formBtn && hasForm) formBtn.href = prefilledForm(total);
+    };
+    // opens the Google Form with this order already filled in
+    const prefilledForm = total => {
+      const f = CFG.googleFormFields;
+      if (!f) return CFG.googleFormUrl;
+      try {
+        const u = new URL(CFG.googleFormUrl);
+        u.searchParams.set('usp', 'pp_url');
+        const add = (key, val) => { if (key) u.searchParams.append(key, val); };
+        add(f.type, FORM_LABELS.types[state.type]);
+        const picked = EXTRAS.filter(x => state.extras[x.id]);
+        add(f.wantExtras, picked.length ? FORM_LABELS.yes : FORM_LABELS.no);
+        picked.forEach(x => add(f.extras, FORM_LABELS.extras[x.id]));
+        const counts = picked.filter(x => x.qty && state.extras[x.id] > 1).map(x => `${x.label}: ${state.extras[x.id]}`);
+        if (counts.length) add(f.counts, counts.join(', '));
+        if (picked.length) add(f.total, String(total));
+        return u.toString();
+      } catch { return CFG.googleFormUrl; }
     };
     typesEl.addEventListener('change', e => { state.type = +e.target.value; render(); });
     extrasEl.addEventListener('change', e => { if (e.target.type === 'checkbox') { state.extras[e.target.value] = e.target.checked ? 1 : 0; render(); } });

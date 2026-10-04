@@ -11,29 +11,30 @@ assets/js/config.js      ← the only file you normally need to edit
 assets/js/main.js        animations, demo cards, order builder
 assets/img/demos/        screenshots of the live demo sites
 assets/img/team/         founder photos
+google-form/             script that builds the Google order form
 ```
 
-## 1. Connect your Google Form
+## 1. The Google order form
 
-Until you add a form link, every "order form" button opens WhatsApp instead, so nothing is ever broken.
+`google-form/create-order-form.gs` builds the whole order form in your Google account and links it to a Google Sheet. Until the form link is in `config.js`, every "order form" button opens WhatsApp instead, so nothing is ever broken.
 
-1. Go to [forms.google.com](https://forms.google.com) and create a blank form called **siteforsite order form**.
-2. Suggested questions:
-   - Your name *(short answer, required)*
-   - WhatsApp number *(short answer, required)*
-   - Which site do you want? *(multiple choice: Personal portfolio, Link-in-bio page, Digital resume / CV, Event or fest page, Society or club page, Small business page, Birthday / anniversary / proposal page, Wedding or party invite)*
-   - Extras *(checkboxes: Extra page ₹99, Contact or registration form ₹99, Google Map ₹49, Photo gallery ₹49, Music ₹49, Urgent same-day delivery ₹100)*
-   - What should the site say? Text, links, details *(paragraph)*
-   - Colours, vibe, or reference sites you like *(paragraph)*
-   - Upload your photos / logo / resume *(file upload; needs a Google sign-in, so you can skip this and ask for photos on WhatsApp instead)*
-3. **Responses** tab → **Link to Sheets** → *Create a new spreadsheet*. Every order now lands in a Google Sheet automatically.
-4. **Settings** → **Presentation** → **Confirmation message**, paste:
-   > Thank you! ♡ Now text us on WhatsApp at **93551 43330** with what you ordered and a screenshot of your payment. We'll confirm your order and send your live link within 24–48 hours.
-5. Click **Send** → the link icon → tick *Shorten URL* → **Copy**.
-6. Paste it into `assets/js/config.js`:
-   ```js
-   googleFormUrl: "https://forms.gle/your-link-here",
-   ```
+**What the form asks:** name, WhatsApp number, email and Instagram (optional); type of website (with prices); site name; features they hope for (tick boxes plus "Other"); exactly what they want; colours or vibe; links to UI inspo; extras yes or no (no extras skips straight to payment); extras with prices, how many, and their total; your payment QR; payment reference. After submitting they see a WhatsApp link to send you their payment screenshot.
+
+**Make it (about 2 minutes):**
+1. Go to [script.google.com](https://script.google.com) → **New project**. Delete the sample code, paste the whole `create-order-form.gs`, click **Save**.
+2. Choose `createOrderForm` in the menu at the top and click **Run**. Allow the permissions (Advanced → "Go to … (unsafe)" → Allow; it's your own script).
+3. Open the **Execution log**. It shows the share link, the edit link, the responses Sheet and two lines for the website.
+4. Paste those two lines (`googleFormUrl` and `googleFormFields`) into `assets/js/config.js`, or send them to Claude.
+5. Google doesn't let scripts add upload questions, so in the form editor add two **File upload** questions:
+   - end of **Your website**: "Upload pictures of the UI you love" (images, up to 5 files)
+   - end of **Payment**: "Upload your payment screenshot" (images, 1 file, required)
+6. Payment QR: save it as `assets/img/payment-qr.png` before running the script and it's added automatically, or add it later with the image button in the **Payment** section.
+
+**Good to know:**
+- Google Forms can't add up a total by itself, so the form lists every price and asks for the total. When someone uses the order builder on the website and taps **fill the order form**, the form opens with their site type, extras and total already filled in.
+- Google Forms can't jump straight to WhatsApp after submitting, so the thank you message shows a WhatsApp link to tap.
+- File uploads need the customer to be signed in to a Google account; uploads land in your Google Drive.
+- If you change a price or option, change it in the script **and** in `FORM_LABELS` in `assets/js/main.js`.
 
 ## 2. Where it's live
 
