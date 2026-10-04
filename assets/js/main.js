@@ -452,7 +452,7 @@
         `Total: ${rupees(total)} (${rupees(now)} to book, ${rupees(later)} after the preview)`,
         hasForm ? 'I’ve filled the short form too.' : 'Here’s what I want on my site:',
       ].join('\n');
-      waBtn.href = waLink(msg);
+      if (waBtn) waBtn.href = waLink(msg);
       if (formBtn) formBtn.href = hasForm ? prefilledForm(total) : waLink(msg);
     };
     // opens the Google Form with this order already filled in

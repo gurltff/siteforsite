@@ -772,6 +772,8 @@ b, strong { font-weight: 600; }
 .flow__n { font-family: var(--f-round); font-weight: 800; font-size: 40px; line-height: .9; color: var(--pink); text-shadow: -.035em -.045em .012em #a39c9d; }
 .receipt__split { display: flex; justify-content: space-between; margin: 6px 0 0; font-size: 13.5px; color: #8d7a83; }
 .receipt__split--now { margin-top: 10px; padding-top: 8px; border-top: 1.5px dashed #c9b3bc; color: var(--grey-dark); font-weight: 700; }
+.contact__note { flex-basis: 100%; text-align: center; font-size: .85rem; font-weight: 500; opacity: .85; }
+.contact .number__big { cursor: text; }
 .contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; margin-top: 34px; font-style: italic; font-weight: 600; color: var(--plum); }
 
 @media (max-width: 1040px) {
