@@ -8,33 +8,35 @@ It's a plain static site (HTML + CSS + a little JavaScript), so there is no buil
 index.html               the page
 assets/css/style.css     all styles (colours are at the top, in :root)
 assets/js/config.js      ← the only file you normally need to edit
-assets/js/main.js        animations, demo cards, order builder
+assets/js/main.js        pages, demo carousel, order builder
 assets/img/demos/        screenshots of the live demo sites
 assets/img/team/         founder photos
 google-form/             script that builds the Google order form
 ```
 
-## 1. The Google order form
+## 1. How ordering works
 
-`google-form/create-order-form.gs` builds the whole order form in your Google account and links it to a Google Sheet. Until the form link is in `config.js`, every "order form" button opens WhatsApp instead, so nothing is ever broken.
+Pay half to book, the rest after the preview:
+1. The customer picks a site and extras in the order builder (on the **how to order** page) and sees the total, split into "pay now to book" and "after your preview".
+2. They fill the **short Google Form** (opens pre-filled with their site and extras) or just send the order on WhatsApp.
+3. You send them a **UPI request for half** from your PhonePe (Request money to their number), so nobody types an amount. Check the money arrived in your own PhonePe app; don't trust screenshots.
+4. You build it and send a preview.
+5. They pay the other half, you send the live link.
 
-**What the form asks:** name, WhatsApp number, email and Instagram (optional); type of website (with prices); site name; features they hope for (tick boxes plus "Other"); exactly what they want; colours or vibe; links to UI inspo; extras yes or no (no extras skips straight to payment); extras with prices, how many, and their total; your payment QR; payment reference. After submitting they see a WhatsApp link to send you their payment screenshot.
+No payment QR is shown anywhere publicly.
+
+### The short Google Form
+
+`google-form/create-order-form.gs` builds it in your Google account and links it to a Google Sheet. It asks for: name, WhatsApp number, type of website, extras (optional), how many, what they want on the site, colours or vibe, and inspo links. The thank you message has a WhatsApp link. Until the form link is in `config.js`, the form buttons open WhatsApp instead.
 
 **Make it (about 2 minutes):**
-1. Go to [script.google.com](https://script.google.com) → **New project**. Delete the sample code, paste the whole `create-order-form.gs`, click **Save**.
-2. Choose `createOrderForm` in the menu at the top and click **Run**. Allow the permissions (Advanced → "Go to … (unsafe)" → Allow; it's your own script).
-3. Open the **Execution log**. It shows the share link, the edit link, the responses Sheet and two lines for the website.
-4. Paste those two lines (`googleFormUrl` and `googleFormFields`) into `assets/js/config.js`, or send them to Claude.
-5. Google doesn't let scripts add upload questions, so in the form editor add two **File upload** questions:
-   - end of **Your website**: "Upload pictures of the UI you love" (images, up to 5 files)
-   - end of **Payment**: "Upload your payment screenshot" (images, 1 file, required)
-6. Payment QR: it lives at `assets/img/payment-qr.png` and the script adds it to the Payment section automatically.
+1. Open your Apps Script project (or [script.google.com](https://script.google.com) → **New project**), replace all the code with `create-order-form.gs`, press **Ctrl + S**.
+2. Choose `createOrderForm` and click **Run** (allow the permissions if asked).
+3. Send the two lines from the **Execution log** to Claude, or paste them into `assets/js/config.js`.
+4. In the form editor add one **File upload** question at the end: "Upload pictures of the UI you love" (images, up to 5 files). Scripts can't add upload questions.
+5. Delete the old order form (the one with the payment QR) in Google Forms.
 
-**Good to know:**
-- Google Forms can't add up a total by itself, so the form lists every price and asks for the total. When someone uses the order builder on the website and taps **fill the order form**, the form opens with their site type, extras and total already filled in.
-- Google Forms can't jump straight to WhatsApp after submitting, so the thank you message shows a WhatsApp link to tap.
-- File uploads need the customer to be signed in to a Google account; uploads land in your Google Drive.
-- If you change a price or option, change it in the script **and** in `FORM_LABELS` in `assets/js/main.js`.
+If you change a price or option, change it in the script **and** in `FORM_LABELS` in `assets/js/main.js`.
 
 ## 2. Where it's live
 
@@ -65,6 +67,9 @@ Each demo has a `cover` image (the front page) and optionally:
 - `long`: a tall full-page screenshot (960px wide) that scrolls on hover.
 
 Save screenshots as `.webp` to keep the page fast.
+
+## Pages
+The site is click-through: home (the poster and a menu), about us, what we make, sites we made, meet the team, the price list and how to order. Each page is a `<section class="page" data-page="…">` in `index.html`; links like `#about` or `#order` open them, and the arrows in the top bar step through them in order. The list of pages is `PAGES` in `assets/js/main.js`.
 
 ## Look and fonts
 The site is styled like a y2k "we are hiring" poster: a browser bar on top, pink halftone paper, grey words in baby blue boxes and big pink rounded words with a grey 3D shadow. All of it lives in `assets/css/style.css` (colours are the variables at the top).

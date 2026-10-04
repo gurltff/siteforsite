@@ -12,8 +12,8 @@
   displayNumber   How the number is written on the page.
 */
 window.SFS_CONFIG = {
-  googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLScoQCIvpI0EwouMUQJ-OVGvdOgL8fAfmlgdm_PfpU_Vole95w/viewform",
-  googleFormFields: { type: "entry.1101517980", wantExtras: "entry.1138542965", extras: "entry.79172625", counts: "entry.409554290", total: "entry.1918008265" },
+  googleFormUrl: "",
+  googleFormFields: null,
   whatsappNumber: "919355143330",
   displayNumber: "93551 43330",
 };

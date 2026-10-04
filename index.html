@@ -49,11 +49,11 @@
   </defs>
 </svg>
 
-<a class="skip" href="#about">Skip to content</a>
+<a class="skip" href="#main">Skip to content</a>
 
 <!-- ============ browser bar (sits at the top, does not follow you) ============ -->
 <header class="bar">
-  <a class="bar__seal" href="#top" aria-label="siteforsite home">
+  <a class="bar__seal" href="#home" aria-label="siteforsite home">
     <svg viewBox="0 0 64 64" aria-hidden="true">
       <defs><path id="seal-ring" d="M32 32 m-22 0 a22 22 0 1 1 44 0 a22 22 0 1 1 -44 0"/></defs>
       <circle cx="32" cy="32" r="30" fill="#dfe8f4" stroke="#7d8fa8" stroke-width="2"/>
@@ -67,7 +67,7 @@
     <button type="button" tabindex="-1" data-step="1" title="forward"><svg viewBox="0 0 24 24"><path d="M3 12h16M13 5l7 7-7 7"/></svg></button>
     <button type="button" tabindex="-1" data-replay title="replay"><svg viewBox="0 0 24 24"><path d="M19.5 13.5A7.6 7.6 0 1 1 17 6.4M19 3v4.6h-4.6"/></svg></button>
   </div>
-  <p class="bar__url">siteforsite<span>/home</span></p>
+  <p class="bar__url" data-url>siteforsite<span>/home</span><i class="bar__load" aria-hidden="true"></i></p>
   <button class="bar__menu" type="button" aria-expanded="false" aria-controls="sheet" data-menu>
     <span></span><span></span><span></span><span class="sr">Menu</span>
   </button>
@@ -81,10 +81,10 @@
   </nav>
 </header>
 
-<main id="top">
+<main id="main" tabindex="-1">
 
 <!-- ============ hero poster ============ -->
-<section class="hero" aria-labelledby="hero-title">
+<section class="page page--home hero" data-page="home" aria-labelledby="hero-title">
   <svg class="burst" viewBox="-100 -100 200 200" aria-hidden="true"><use href="#burst" x="-100" y="-100" width="200" height="200"/></svg>
   <h1 class="poster" id="hero-title" aria-label="we are siteforsite: designers and developers">
     <span class="boxword boxword--top" aria-hidden="true"><svg class="pstar"><use href="#pstar"/></svg>we are<svg class="pstar"><use href="#pstar"/></svg></span>
@@ -98,12 +98,19 @@
     <span class="apply__in">book now !</span>
     <svg class="pxcursor" aria-hidden="true"><use href="#px-cursor"/></svg>
   </a>
+  <nav class="home-menu" aria-label="Pages">
+    <a href="#about"><svg class="pstar" aria-hidden="true"><use href="#pstar"/></svg>about us</a>
+    <a href="#make"><svg class="pstar" aria-hidden="true"><use href="#pstar"/></svg>what we make</a>
+    <a href="#sites"><svg class="pstar" aria-hidden="true"><use href="#pstar"/></svg>sites we made</a>
+    <a href="#team"><svg class="pstar" aria-hidden="true"><use href="#pstar"/></svg>meet the team</a>
+    <a href="#prices"><svg class="pstar" aria-hidden="true"><use href="#pstar"/></svg>the price list</a>
+    <a href="#order"><svg class="pstar" aria-hidden="true"><use href="#pstar"/></svg>how to order</a>
+  </nav>
 </section>
 
-<div class="flowers" aria-hidden="true"></div>
 
 <!-- ============ about ============ -->
-<section class="section" id="about" aria-labelledby="about-title">
+<section class="page section" data-page="about" aria-labelledby="about-title">
   <h2 class="title" id="about-title" data-reveal>
     <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>about<svg class="pstar"><use href="#pstar"/></svg></span>
     <span class="pink pink--title">us</span>
@@ -123,10 +130,9 @@
   </ul>
 </section>
 
-<div class="flowers" aria-hidden="true"></div>
 
 <!-- ============ what we make ============ -->
-<section class="section" id="make" aria-labelledby="make-title">
+<section class="page section" data-page="make" aria-labelledby="make-title">
   <h2 class="title" id="make-title" data-reveal>
     <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>what we<svg class="pstar"><use href="#pstar"/></svg></span>
     <span class="pink pink--title">make</span>
@@ -144,16 +150,22 @@
   </ul>
 </section>
 
-<div class="flowers" aria-hidden="true"></div>
 
 <!-- ============ sites we made ============ -->
-<section class="section section--wide" id="sites" aria-labelledby="sites-title">
+<section class="page section section--wide" data-page="sites" aria-labelledby="sites-title">
   <h2 class="title" id="sites-title" data-reveal>
     <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>sites<svg class="pstar"><use href="#pstar"/></svg></span>
     <span class="pink pink--title">we made</span>
   </h2>
-  <p class="note note--blue note--lede" data-reveal>All of these are live right now. Hover (or scroll on your phone) to peek inside, and tap <b>try it here</b> to play with the real thing.</p>
-  <div class="demo-grid" data-demos></div>
+  <p class="note note--blue note--lede" data-reveal>All of these are live right now. Flip through them, hover to peek inside, and tap <b>try it here</b> to play with the real thing.</p>
+  <div class="carousel" data-carousel>
+    <div class="demo-grid" data-demos tabindex="0" aria-label="Sites we made, scroll sideways"></div>
+    <div class="carousel__ctrl">
+      <button class="carousel__btn" type="button" data-car="-1" aria-label="Previous site"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="carousel__count" data-car-count aria-live="polite">1 / 7</span>
+      <button class="carousel__btn" type="button" data-car="1" aria-label="Next site"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
   <noscript>
     <ul class="noscript-list">
       <li><a href="https://gurltff.github.io/imcoco/">Coco's Corner</a></li>
@@ -167,15 +179,15 @@
   </noscript>
 </section>
 
-<div class="flowers" aria-hidden="true"></div>
 
 <!-- ============ team ============ -->
-<section class="section section--wide" id="team" aria-labelledby="team-title">
+<section class="page section section--wide" data-page="team" aria-labelledby="team-title">
   <h2 class="title" id="team-title" data-reveal>
     <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>meet<svg class="pstar"><use href="#pstar"/></svg></span>
     <span class="pink pink--title">the team</span>
   </h2>
   <p class="note note--blue note--lede" data-reveal>Three friends, three different degrees, one shared love for pretty websites.</p>
+  <p class="swipe-hint" aria-hidden="true">swipe to meet all three →</p>
   <div class="people">
     <article class="person" data-reveal>
       <div class="person__photo"><img src="assets/img/team/raghav.webp" width="720" height="720" alt="Raghav Singh" loading="lazy"></div>
@@ -214,10 +226,9 @@
   </div>
 </section>
 
-<div class="flowers" aria-hidden="true"></div>
 
 <!-- ============ prices ============ -->
-<section class="section section--wide" id="prices" aria-labelledby="prices-title">
+<section class="page section section--wide" data-page="prices" aria-labelledby="prices-title">
   <h2 class="title" id="prices-title" data-reveal>
     <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>the<svg class="pstar"><use href="#pstar"/></svg></span>
     <span class="pink pink--title">price list</span>
@@ -250,10 +261,29 @@
     </div>
   </div>
 
-  <form class="builder note note--blue" data-builder data-reveal aria-labelledby="builder-title" onsubmit="return false">
+  <p class="note note--blue price-pay" data-reveal>Pay <b>half to book</b>, and the rest only after you see your preview and love it.</p>
+  <a class="btn btn--blue price-cta" href="#order">build your order and see your total</a>
+</section>
+
+
+<!-- ============ how to order ============ -->
+<section class="page section" data-page="order" aria-labelledby="order-title">
+  <h2 class="title" id="order-title" data-reveal>
+    <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>how to<svg class="pstar"><use href="#pstar"/></svg></span>
+    <span class="pink pink--title">order</span>
+  </h2>
+  <p class="note note--blue note--lede" data-reveal>Pay half to book, and the rest only after you love your preview.</p>
+  <ol class="flow" data-reveal>
+    <li><span class="flow__n">1</span><b>pick your site</b><span>Choose a site and extras below and see your total.</span></li>
+    <li><span class="flow__n">2</span><b>fill the short form</b><span>Your name, number, what you want and pictures you love. Two minutes.</span></li>
+    <li><span class="flow__n">3</span><b>pay half to book</b><span>We send you a UPI request for half your total on WhatsApp. Just tap pay, nothing to type.</span></li>
+    <li><span class="flow__n">4</span><b>see your preview</b><span>We build it and send you a preview within 24 to 48 hours.</span></li>
+    <li><span class="flow__n">5</span><b>pay the rest, go live</b><span>Love it? Pay the other half and get your live link.</span></li>
+  </ol>
+  <form class="builder note note--blue" data-builder data-reveal style="--d:.1s" aria-labelledby="builder-title" onsubmit="return false">
     <div class="builder__head">
       <h3 class="boxword boxword--sm" id="builder-title">build your order</h3>
-      <p>Play around, see your total, then send it to us in one tap.</p>
+      <p>Pick your site and extras. You only pay half now, and the rest after your preview.</p>
     </div>
     <div class="builder__pick">
       <fieldset class="builder__step">
@@ -270,52 +300,21 @@
         <p class="receipt__h">your order</p>
         <ul data-lines></ul>
         <p class="receipt__total"><span>total</span><b data-total>₹150</b></p>
+        <p class="receipt__split receipt__split--now"><span>pay now to book</span><span data-half-now>₹75</span></p>
+        <p class="receipt__split"><span>after your preview</span><span data-half-later>₹75</span></p>
       </div>
       <div class="builder__actions">
-        <a class="btn btn--blue" href="https://wa.me/919355143330" data-wa-order target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg> send this on WhatsApp</a>
-        <a class="btn btn--ghost" href="https://wa.me/919355143330" data-form-link target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-form"/></svg> fill the order form</a>
+        <a class="btn btn--blue" href="https://wa.me/919355143330" data-form-link target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-form"/></svg> fill the short form</a>
+        <a class="btn btn--ghost" href="https://wa.me/919355143330" data-wa-order target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg> or send this on WhatsApp</a>
       </div>
     </div>
   </form>
-</section>
-
-<div class="flowers" aria-hidden="true"></div>
-
-<!-- ============ how to order ============ -->
-<section class="section" id="order" aria-labelledby="order-title">
-  <h2 class="title" id="order-title" data-reveal>
-    <span class="boxword boxword--sm"><svg class="pstar"><use href="#pstar"/></svg>how to<svg class="pstar"><use href="#pstar"/></svg></span>
-    <span class="pink pink--title">order</span>
-  </h2>
-  <p class="note note--blue note--lede" data-reveal>Three tiny steps. No calls, no meetings, no stress.</p>
-  <ol class="steps">
-    <li class="step note note--pink" data-reveal>
-      <span class="pink pink--num">1</span>
-      <h3>fill the order form</h3>
-      <p>Tell us your name, which site you want, your details, photos and any references you love. It takes about two minutes.</p>
-      <a class="btn btn--blue" href="https://wa.me/919355143330" data-form-link target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-form"/></svg> open the order form</a>
-    </li>
-    <li class="step note note--pink" data-reveal style="--d:.1s">
-      <span class="pink pink--num">2</span>
-      <h3>text us on WhatsApp</h3>
-      <p>Send us what you ordered along with a screenshot of your payment.</p>
-      <div class="number">
-        <a class="number__big" href="https://wa.me/919355143330" data-wa-link target="_blank" rel="noopener" data-number>93551 43330</a>
-        <button class="copy" type="button" data-copy aria-label="Copy WhatsApp number"><svg aria-hidden="true"><use href="#i-copy"/></svg><span>copy</span></button>
-      </div>
-      <a class="btn btn--ghost" href="https://wa.me/919355143330" data-wa-link target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg> chat on WhatsApp</a>
-    </li>
-    <li class="step note note--pink" data-reveal style="--d:.2s">
-      <span class="pink pink--num">3</span>
-      <h3>get your link</h3>
-      <p>We confirm your order, start building, and send you your live link within 24 to 48 hours. Then you share it with the world.</p>
-      <p class="step__note">that's it, really!</p>
-    </li>
-  </ol>
-  <a class="apply apply--end" href="https://wa.me/919355143330" data-wa-link target="_blank" rel="noopener">
-    <span class="apply__in">book now !</span>
-    <svg class="pxcursor" aria-hidden="true"><use href="#px-cursor"/></svg>
-  </a>
+  <div class="contact" data-reveal>
+    <span>questions? just text us</span>
+    <a class="number__big" href="https://wa.me/919355143330" data-wa-link target="_blank" rel="noopener" data-number>93551 43330</a>
+    <button class="copy" type="button" data-copy aria-label="Copy WhatsApp number"><svg aria-hidden="true"><use href="#i-copy"/></svg><span>copy</span></button>
+    <a class="btn btn--ghost" href="https://wa.me/919355143330" data-wa-link target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg> chat on WhatsApp</a>
+  </div>
 </section>
 
 </main>
@@ -323,12 +322,7 @@
 <!-- ============ footer ============ -->
 <footer class="footer">
   <div class="flowers" aria-hidden="true"></div>
-  <p class="pink pink--title footer__thanks">thank you!</p>
-  <nav class="footer__nav" aria-label="Footer">
-    <a href="#about">about</a><a href="#make">what we make</a><a href="#sites">our sites</a><a href="#team">team</a><a href="#prices">prices</a><a href="#order">order</a><a href="#top">back to top</a>
-  </nav>
   <p class="footer__small">© 2026 siteforsite · made with <svg class="ico-heart" aria-hidden="true"><use href="#heart"/></svg> by Raghav, Ansshita &amp; Anoushka</p>
-  <div class="flowers" aria-hidden="true"></div>
 </footer>
 
 <!-- live preview window -->
@@ -350,21 +344,5 @@
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 
 <script src="assets/js/main.js" defer></script>
-<script>
-  /* browser bar: back / forward jump between sections, refresh replays the poster */
-  (() => {
-    const secs = () => [document.querySelector('.hero'), ...document.querySelectorAll('main .section')];
-    document.querySelectorAll('[data-step]').forEach(b => b.addEventListener('click', () => {
-      const list = secs(), y = scrollY + 10;
-      let i = list.findIndex((s, k) => !list[k + 1] || list[k + 1].offsetTop > y);
-      const t = list[Math.max(0, Math.min(list.length - 1, i + +b.dataset.step))];
-      t && t.scrollIntoView({ behavior: 'smooth' });
-    }));
-    document.querySelector('[data-replay]')?.addEventListener('click', () => {
-      const h = document.querySelector('.hero');
-      h.classList.remove('is-in'); void h.offsetWidth; h.classList.add('is-in');
-    });
-  })();
-</script>
 </body>
 </html>

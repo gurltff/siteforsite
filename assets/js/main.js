@@ -89,7 +89,7 @@
   $$('[data-wa-link]').forEach(a => { a.href = waLink(hello); });
   $$('[data-number]').forEach(el => { if (CFG.displayNumber) el.textContent = CFG.displayNumber; });
   $$('[data-form-link]').forEach(a => {
-    a.href = hasForm ? CFG.googleFormUrl : waLink('Hi siteforsite! ♡ I’d like to book a website. Could you send me the order form?');
+    a.href = hasForm ? CFG.googleFormUrl : waLink('Hi siteforsite! ♡ I’d like to book a website.');
   });
 
   /* ---------------- split text into letters ---------------- */
@@ -174,6 +174,75 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && sheet && !sheet.hidden) setMenu(false); });
   document.addEventListener('click', e => {
     if (sheet && !sheet.hidden && !e.target.closest('[data-sheet], [data-menu]')) setMenu(false);
+  });
+
+
+  /* ---------------- click-through pages ---------------- */
+  const PAGES = [
+    { id: 'home', path: 'home', label: 'home' },
+    { id: 'about', path: 'about-us', label: 'about us' },
+    { id: 'make', path: 'what-we-make', label: 'what we make' },
+    { id: 'sites', path: 'sites-we-made', label: 'sites we made' },
+    { id: 'team', path: 'meet-the-team', label: 'meet the team' },
+    { id: 'prices', path: 'price-list', label: 'the price list' },
+    { id: 'order', path: 'how-to-order', label: 'how to order' },
+  ];
+  const pageEls = Object.fromEntries($$('[data-page]').map(el => [el.dataset.page, el]));
+  const urlEl = $('[data-url]');
+  const baseTitle = document.title;
+  let current = null;
+
+  // back / next buttons at the bottom of every page except home
+  PAGES.forEach((p, i) => {
+    const el = pageEls[p.id];
+    if (!el || i === 0) return;
+    const prev = PAGES[i - 1], next = PAGES[i + 1];
+    const nav = document.createElement('nav');
+    nav.className = 'pager';
+    nav.setAttribute('aria-label', 'Page');
+    nav.innerHTML =
+      `<a class="pager__prev" href="#${prev.id}">← ${esc(prev.label)}</a>` +
+      (next ? `<a class="pager__next" href="#${next.id}">next: <b>${esc(next.label)}</b> →</a>`
+            : `<a class="pager__next" href="#home">back to <b>home</b></a>`);
+    el.appendChild(nav);
+  });
+
+  const pageFromHash = () => {
+    const h = decodeURIComponent(location.hash.slice(1));
+    return PAGES.find(p => p.id === h || p.path === h) || PAGES[0];
+  };
+  const show = (page, { focus = true } = {}) => {
+    if (!pageEls[page.id]) return;
+    Object.values(pageEls).forEach(el => el.classList.toggle('is-active', el === pageEls[page.id]));
+    current = page;
+    window.scrollTo(0, 0);
+    document.title = page.id === 'home' ? baseTitle : `${page.label} · siteforsite`;
+    if (urlEl) {
+      urlEl.firstChild.textContent = 'siteforsite';
+      urlEl.querySelector('span').textContent = '/' + page.path;
+      urlEl.classList.remove('is-loading'); void urlEl.offsetWidth; urlEl.classList.add('is-loading');
+    }
+    if (sheet && !sheet.hidden) setMenu(false);
+    if (focus) {
+      const h = pageEls[page.id].querySelector('h1, h2');
+      if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+    }
+    observeReveal();
+  };
+  addEventListener('hashchange', () => show(pageFromHash()));
+  show(pageFromHash(), { focus: false });
+
+  // the address bar's back / forward / refresh buttons
+  const go = step => {
+    const i = PAGES.indexOf(current) + step;
+    if (i >= 0 && i < PAGES.length) location.hash = PAGES[i].id;
+  };
+  $$('.bar__nav [data-step]').forEach(b => b.addEventListener('click', () => go(+b.dataset.step)));
+  $('.bar__nav [data-replay]')?.addEventListener('click', () => {
+    const el = pageEls[current.id];
+    el.classList.remove('is-active'); void el.offsetWidth; el.classList.add('is-active');
+    if (current.id === 'home') { hero.classList.remove('is-in'); void hero.offsetWidth; hero.classList.add('is-in'); }
+    urlEl?.classList.remove('is-loading'); void urlEl?.offsetWidth; urlEl?.classList.add('is-loading');
   });
 
   /* ---------------- sparkle trail over the hero ---------------- */
@@ -284,6 +353,41 @@
     }
   }
 
+
+  /* ---------------- sites carousel ---------------- */
+  const car = $('[data-carousel]');
+  if (car && grid) {
+    const cards = () => $$('.demo', grid);
+    const countEl = $('[data-car-count]', car);
+    const [prevBtn, nextBtn] = $$('[data-car]', car);
+    const index = () => {
+      const mid = grid.scrollLeft + grid.clientWidth / 2;
+      let best = 0, bestD = Infinity;
+      cards().forEach((c, k) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bestD) { bestD = d; best = k; } });
+      return best;
+    };
+    const update = () => {
+      const i = index(), n = cards().length;
+      countEl.textContent = `${i + 1} / ${n}`;
+      prevBtn.disabled = i === 0;
+      nextBtn.disabled = i === n - 1;
+    };
+    const goTo = i => {
+      const c = cards()[Math.max(0, Math.min(cards().length - 1, i))];
+      if (c) grid.scrollTo({ left: c.offsetLeft - (grid.clientWidth - c.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' });
+    };
+    $$('[data-car]', car).forEach(b => b.addEventListener('click', () => goTo(index() + +b.dataset.car)));
+    grid.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index() + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index() - 1); }
+    });
+    let t;
+    grid.addEventListener('scroll', () => { clearTimeout(t); t = setTimeout(update, 60); }, { passive: true });
+    addEventListener('hashchange', () => setTimeout(update, 50));
+    addEventListener('resize', update);
+    update();
+  }
+
   /* ---------------- live preview dialog ---------------- */
   const dlg = $('[data-peek]');
   const frame = $('[data-peek-frame]');
@@ -316,6 +420,8 @@
     const totalEl = $('[data-total]', builder);
     const waBtn = $('[data-wa-order]', builder);
     const formBtn = $('[data-form-link]', builder);
+    const nowEl = $('[data-half-now]', builder);
+    const laterEl = $('[data-half-later]', builder);
     const state = { type: 0, extras: Object.fromEntries(EXTRAS.map(x => [x.id, 0])) };
 
     typesEl.innerHTML = TYPES.map((t, k) => `
@@ -337,14 +443,17 @@
       totalEl.textContent = rupees(total);
       if (total !== prevTotal) { totalEl.classList.remove('bump'); void totalEl.offsetWidth; totalEl.classList.add('bump'); }
       prevTotal = total;
+      const now = Math.ceil(total / 2), later = total - now;
+      nowEl.textContent = rupees(now);
+      laterEl.textContent = rupees(later);
       const msg = [
         'Hi siteforsite! ♡ I’d like to order:',
         ...lines.map(([l, p]) => `• ${l}: ${rupees(p)}`),
-        `Total: ${rupees(total)}`,
-        hasForm ? 'I’ll fill the order form and send my payment screenshot here.' : 'I’ll share my details and my payment screenshot here.',
+        `Total: ${rupees(total)} (${rupees(now)} to book, ${rupees(later)} after the preview)`,
+        hasForm ? 'I’ve filled the short form too.' : 'Here’s what I want on my site:',
       ].join('\n');
       waBtn.href = waLink(msg);
-      if (formBtn && hasForm) formBtn.href = prefilledForm(total);
+      if (formBtn) formBtn.href = hasForm ? prefilledForm(total) : waLink(msg);
     };
     // opens the Google Form with this order already filled in
     const prefilledForm = total => {
