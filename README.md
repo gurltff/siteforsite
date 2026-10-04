@@ -18,10 +18,11 @@ google-form/             script that builds the Google order form
 
 Pay half to book, the rest after the preview:
 1. The customer picks a site and extras in the order builder (on the **how to order** page) and sees the total, split into "pay now to book" and "after your preview".
-2. They fill the **short Google Form** (opens pre-filled with their site and extras) or just send the order on WhatsApp.
-3. You send them a **UPI request for half** from your PhonePe (Request money to their number), so nobody types an amount. Check the money arrived in your own PhonePe app; don't trust screenshots.
-4. You build it and send a preview.
-5. They pay the other half, you send the live link.
+2. They fill the **short Google Form** (opens pre-filled with their site and extras).
+3. Back on the site they tap **send your bill on WhatsApp**: the message already lists their items, total, the half to pay now and the half after the preview.
+4. You send them a **UPI request for half** from your PhonePe (Request money to their number), so nobody types an amount. Check the money arrived in your own PhonePe app; don't trust screenshots.
+5. You build it and send a preview.
+6. They pay the other half, you send the live link.
 
 No payment QR is shown anywhere publicly.
 

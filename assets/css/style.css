@@ -790,6 +790,15 @@ b, strong { font-weight: 600; }
   .types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
+
+/* order builder: form first, then the bill */
+.step-tag { display: inline-grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 50%; background: var(--pink-soft); color: var(--grey-dark); font-family: var(--f-round); font-weight: 800; font-size: .85em; line-height: 1; }
+.btn--ghost .step-tag { background: var(--blue); }
+.builder__hint { margin: 2px 4px 0; font-style: italic; font-size: .85rem; line-height: 1.4; text-align: center; color: var(--plum); }
+.builder.form-opened [data-wa-order] { background: var(--grey-btn); color: var(--pink-soft); box-shadow: 0 0 0 5px var(--blue), 0 0 0 6.5px var(--blue-ring), var(--shadow); animation: nudge 1.6s var(--ease-out) 2; }
+.builder.form-opened [data-form-link] { background: #fff; color: var(--plum); box-shadow: inset 0 0 0 2.5px var(--pink-line), var(--shadow); }
+@keyframes nudge { 0%, 100% { transform: none; } 30% { transform: scale(1.05); } 60% { transform: scale(.99); } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; transition-delay: 0s !important; }

@@ -447,10 +447,11 @@
       nowEl.textContent = rupees(now);
       laterEl.textContent = rupees(later);
       const msg = [
-        'Hi siteforsite! ♡ I’d like to order:',
+        hasForm ? 'Hi siteforsite! ♡ I’ve filled the short form. Here’s my bill:' : 'Hi siteforsite! ♡ Here’s my bill:',
         ...lines.map(([l, p]) => `• ${l}: ${rupees(p)}`),
-        `Total: ${rupees(total)} (${rupees(now)} to book, ${rupees(later)} after the preview)`,
-        hasForm ? 'I’ve filled the short form too.' : 'Here’s what I want on my site:',
+        `Total: ${rupees(total)}`,
+        `Pay now to book: ${rupees(now)}`,
+        `After the preview: ${rupees(later)}`,
       ].join('\n');
       if (waBtn) waBtn.href = waLink(msg);
       if (formBtn) formBtn.href = hasForm ? prefilledForm(total) : waLink(msg);
@@ -473,6 +474,12 @@
         return u.toString();
       } catch { return CFG.googleFormUrl; }
     };
+    formBtn?.addEventListener('click', () => {
+      if (!hasForm) return;
+      builder.classList.add('form-opened');
+      const hint = $('[data-bill-hint]', builder);
+      if (hint) hint.textContent = 'Done with the form? Now send your bill on WhatsApp ↑';
+    });
     typesEl.addEventListener('change', e => { state.type = +e.target.value; render(); });
     extrasEl.addEventListener('change', e => { if (e.target.type === 'checkbox') { state.extras[e.target.value] = e.target.checked ? 1 : 0; render(); } });
     extrasEl.addEventListener('click', e => {
