@@ -37,15 +37,16 @@ Until you add a form link, every "order form" button opens WhatsApp instead, so 
 
 ## 2. Where it's live
 
-**https://gurltff.github.io/siteforsite/**
+- **https://siteforsite.onrender.com** (Render static site)
+- **https://gurltff.github.io/siteforsite/** (GitHub Pages)
 
-GitHub Pages serves the `gh-pages` branch. To publish changes, push the updated files to that branch, e.g.:
+Both serve the `gh-pages` branch and update by themselves. To publish changes, push the updated files to that branch, e.g.:
 
 ```sh
 git push origin HEAD:gh-pages
 ```
 
-GitHub rebuilds the site in about a minute. Netlify or Vercel work too: import the repo; there's no build command and the publish directory is the repo root (`netlify.toml` already says so).
+Both rebuild in about a minute. On Render the build command is a no-op `echo` and the publish directory is `./`. Netlify or Vercel work too: import the repo; there's no build command and the publish directory is the repo root (`netlify.toml` already says so).
 
 ## 3. Everyday edits
 
